@@ -412,7 +412,37 @@ const listing = document.getElementById("listing");
 const details = document.getElementById("details");
 const search = document.getElementById("search");
 let selectedCategory = "Alle";
+function openPack(pack) {
+  listing.classList.add("hidden");
+  details.classList.remove("hidden");
 
+  document.getElementById("detailTitle").textContent =
+    pack.icon + " " + pack.name;
+
+  document.getElementById("detailDescription").textContent =
+    pack.description;
+
+  document.getElementById("compatibility").textContent =
+    "🎮 Kompatibilität: " + pack.compatibility;
+
+  document.getElementById("creator").textContent =
+    "Ersteller: " + pack.creator;
+
+  const download = document.getElementById("downloadButton");
+
+  if (pack.url) {
+    download.href = pack.url;
+    download.classList.remove("hidden");
+  } else {
+    download.href = "#";
+    download.classList.add("hidden");
+  }
+
+  setPreview("withoutImage", pack.withoutImage, "Ohne Pack");
+  setPreview("withImage", pack.withImage, "Mit Pack");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 function renderPacks() {
   grid.innerHTML = "";
 

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10091f">
+<title>Bedrock Packs 3.0</title>
+
+<style>
+:root {
+  --bg:#0b0714;
+  --panel:#191125;
+  --purple:#a855f7;
+  --pink:#ec4899;
+  --text:#faf7ff;
+  --muted:#b9adc9;
+  --border:#39274c;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  background:radial-gradient(ellipse at top,#35134e,transparent 45%),var(--bg);
+}
+button,input,textarea,select { font:inherit; }
+button { cursor:pointer; }
+a { color:inherit;text-decoration:none; }
+
+header {
+  position:sticky;
+  top:0;
+  z-index:5;
+  background:#0b0714ee;
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+nav {
+  max-width:1200px;
+  margin:auto;
+  padding:15px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.logo { font-size:21px;font-weight:900; }
+.logo span { color:var(--purple); }
+.navlinks { display:flex;gap:15px;flex-wrap:wrap; }
+.navlinks a { color:var(--muted);font-size:14px; }
+.navlinks a:hover { color:white; }
+
+.btn {
+  display:inline-block;
+  border:0;
+  border-radius:11px;
+  padding:12px 16px;
+  color:white;
+  font-weight:bold;
+  background:linear-gradient(120deg,var(--purple),var(--pink));
+}
+.btn:hover { filter:brightness(1.12); }
+
+main { max-width:1200px;margin:auto;padding:0 20px; }
+.hero {
+  padding:65px 0 45px;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:30px;
+  align-items:center;
+}
+.tag {
+  display:inline-block;
+  padding:8px 12px;
+  border:1px solid #a855f755;
+  background:#a855f71c;
+  border-radius:30px;
+  color:#e8caff;
+  font-size:12px;
+  font-weight:bold;
+}
+h1 { font-size:clamp(38px,6vw,66px);line-height:1.05;margin:20px 0; }
+h1 span { color:var(--purple); }
+.hero p,.sub { color:var(--muted);line-height:1.7; }
+.hero-art {
+  min-height:245px;
+  border:1px solid #63358a;
+  border-radius:25px;
+  background:linear-gradient(145deg,#29153e,#110b20);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  box-shadow:0 0 45px #a855f722;
+}
+.hero-icon { font-size:90px;filter:drop-shadow(0 0 20px #a855f7); }
+.hero-art strong { font-size:22px;margin-top:12px; }
+.hero-art small { color:var(--muted);margin-top:8px; }
+
+.section { padding:28px 0 45px; }
+.section-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+h2 { font-size:28px;margin:0 0 8px; }
+.sub { margin:0; }
+.search-tools { display:flex;gap:10px;flex-wrap:wrap; }
+.search {
+  width:min(100%,280px);
+  padding:13px;
+  border-radius:11px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  color:white;
+}
+.filters { display:flex;gap:9px;flex-wrap:wrap;margin-bottom:22px; }
+.filter {
+  color:var(--muted);
+  background:var(--panel);
+  border:1px solid var(--border);
+  padding:10px 14px;
+  border-radius:10px;
+}
+.filter.active,.filter:hover {
+  color:white;background:#a855f72b;border-color:var(--purple);
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:17px;
+}
+.card {
+  background:linear-gradient(150deg,#1c132b,#120d1d);
+  border:1px solid var(--border);
+  border-radius:17px;
+  overflow:hidden;
+  transition:.2s;
+}
+.card:hover { transform:translateY(-4px);border-color:var(--purple); }
+.card-art {
+  min-height:135px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  font-size:48px;
+  background:radial-gradient(ellipse at center,#43215d,#1a1027 70%);
+}
+.card-art small { font-size:11px;color:#d6c4e8; }
+.card-body { padding:16px; }
+.card-top { display:flex;align-items:center;justify-content:space-between;gap:8px; }
+.card h3 { font-size:18px;margin:0; }
+.badge {
+  font-size:11px;padding:6px 8px;border-radius:8px;
+  background:#a855f726;color:#dfbaff;
+}
+.card p { color:var(--muted);font-size:13px;min-height:42px; }
+.card .btn { width:100%;text-align:center; }
+.empty { color:var(--muted);padding:20px 0; }
+
+.detail {
+  display:none;
+  padding:24px;
+  margin:20px 0 40px;
+  border:1px solid #70429a;
+  border-radius:20px;
+  background:linear-gradient(145deg,#211331,#100b1a);
+}
+.detail.show { display:block; }
+.back {
+  background:transparent;color:white;
+  border:1px solid var(--border);
+  padding:10px 13px;border-radius:10px;margin-bottom:20px;
+}
+.detail-layout {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+.compare { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+.preview {
+  min-height:140px;padding:12px;
+  border:1px solid var(--border);border-radius:13px;
+  background:#100b1a;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;text-align:center;
+}
+.preview .symbol { font-size:43px; }
+.preview strong { font-size:13px; }
+.notice {
+  padding:13px;border-radius:11px;
+  border:1px solid #765020;background:#5c3b151c;
+  color:#f8d9a0;font-size:13px;line-height:1.6;margin:16px 0;
+}
+
+.form-panel {
+  display:none;
+  background:var(--panel);
+  border:1px solid var(--purple);
+  padding:22px;
+  border-radius:17px;
+  margin-bottom:25px;
+}
+.form-panel.show { display:block; }
+form { display:grid;gap:13px;margin-top:18px; }
+form input,form textarea,form select {
+  width:100%;padding:13px;border-radius:10px;
+  border:1px solid var(--border);
+  color:white;background:#100b1a;
+}
+form textarea { min-height:90px;resize:vertical; }
+form select option { background:#191125; }
+.status { color:#d8b5ff;line-height:1.6; }
+
+.features { display:grid;grid-template-columns:1fr 1fr;gap:17px; }
+.feature {
+  padding:22px;border:1px solid var(--border);
+  border-radius:17px;background:var(--panel);
+}
+.feature .big { font-size:36px; }
+.feature p { color:var(--muted);line-height:1.6; }
+
+footer {
+  border-top:1px solid var(--border);
+  margin-top:20px;padding:30px 20px;
+  text-align:center;color:var(--muted);
+  font-size:13px;line-height:1.8;
+}
+footer strong { color:white; }
+
+@media(max-width:800px) {
+  .hero { grid-template-columns:1fr;padding-top:42px; }
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .detail-layout { grid-template-columns:1fr; }
+}
+@media(max-width:520px) {
+  main { padding:0 14px; }
+  .navlinks { gap:10px; }
+  .navlinks a { font-size:12px; }
+  .grid,.features { grid-template-columns:1fr; }
+  .section-head { align-items:stretch; }
+  .search { width:100%; }
+  .detail { padding:15px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <nav>
+    <a class="logo" href="#" onclick="closeDetail()">BEDROCK <span>PACKS</span></a>
+    <div class="navlinks">
+      <a href="#packs">Packs</a>
+      <a href="#app">App</a>
+      <a href="#vorschlagen">Vorschlagen</a>
+    </div>
+    <a class="btn" href="#app">📱 App</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <span class="tag">✦ BEDROCK PACKS 3.0</span>
+      <h1>Dein Minecraft.<br><span>Dein Style.</span></h1>
+      <p>Entdecke PvP-Texturen, lustige Packs und visuelle Verbesserungen für deine Minecraft-Welt.</p>
+      <a class="btn" href="#packs">Packs entdecken ↓</a>
+    </div>
+    <div class="hero-art">
+      <div class="hero-icon">💎</div>
+      <strong>BEDROCK PACKS</strong>
+      <small>Finde dein nächstes Pack.</small>
+    </div>
+  </section>
+
+  <section class="section" id="packs">
+    <div class="section-head">
+      <div>
+        <h2>Pack-Bibliothek</h2>
+        <p class="sub">Suche, entdecke und öffne Packs.</p>
+      </div>
+      <div class="search-tools">
+        <input class="search" id="search" placeholder="🔍 Packs suchen..." aria-label="Packs suchen">
+        <button class="btn" onclick="toggleAddForm()">＋ Eigenes Pack</button>
+      </div>
+    </div>
+
+    <div class="form-panel" id="addPanel">
+      <h2>＋ Eigenes Pack hinzufügen</h2>
+      <p class="sub">Dein Pack erscheint zunächst nur in deinem aktuellen Browser.</p>
+      <form id="addForm">
+        <input id="newName" maxlength="60" required placeholder="Name des Packs">
+        <select id="newCat" required>
+          <option value="PvP">⚔️ PvP</option>
+          <option value="Fun">🎉 Fun</option>
+          <option value="Blocks">🧱 Blocks</option>
+          <option value="Mobs">🐲 Mobs</option>
+          <option value="UI">🖥️ UI</option>
+        </select>
+        <input id="newIcon" maxlength="8" placeholder="Emoji für die Vorschau, z. B. 🛡️">
+        <textarea id="newDesc" maxlength="300" placeholder="Beschreibung des Packs"></textarea>
+        <input id="newLink" type="url" placeholder="Original-Link (optional)">
+        <button class="btn" type="submit">Pack hinzufügen</button>
+        <button class="back" type="button" onclick="toggleAddForm()">Abbrechen</button>
+      </form>
+      <p class="status" id="addStatus" role="status"></p>
+    </div>
+
+    <div class="filters">
+      <button class="filter active" data-cat="Alle">Alle</button>
+      <button class="filter" data-cat="PvP">⚔️ PvP</button>
+      <button class="filter" data-cat="Fun">🎉 Fun</button>
+      <button class="filter" data-cat="Blocks">🧱 Blocks</button>
+      <button class="filter" data-cat="Mobs">🐲 Mobs</button>
+      <button class="filter" data-cat="UI">🖥️ UI</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <p class="empty" id="empty" hidden>Keine Packs gefunden.</p>
+  </section>
+
+  <section class="detail" id="detail" aria-live="polite">
+    <button class="back" onclick="closeDetail()">← Zurück zu allen Packs</button>
+    <div class="detail-layout">
+      <div>
+        <span class="tag" id="detailCat"></span>
+        <h2 id="detailName"></h2>
+        <p id="detailDesc"></p>
+        <p><strong>Plattform:</strong> <span id="detailPlatform"></span></p>
+        <p><strong>Status:</strong> <span id="detailStatus"></span></p>
+        <div class="notice">
+          ⚠️ Prüfe vor dem Download die Originalquelle und die Kompatibilität.
+          Externe Resource Packs lassen sich nicht einfach direkt auf jeder PS5 installieren.
+        </div>
+        <a class="btn" id="download" href="#" target="_blank" rel="noopener" hidden>Originalseite öffnen ↗</a>
+        <p class="sub" id="noDownload">Für dieses Pack wurde noch kein Original-Link hinterlegt.</p>
+      </div>
+      <div>
+        <h3>Pack-Vorschau</h3>
+        <p class="sub">Symbol-Vorschau, keine echten Screenshots.</p>
+        <div class="compare">
+          <div class="preview">
+            <div class="symbol" id="beforeIcon">🎮</div>
+            <strong>Ohne Pack</strong>
+          </div>
+          <div class="preview">
+            <div class="symbol" id="afterIcon">✨</div>
+            <strong>Mit Pack</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="app">
+    <div class="section-head">
+      <div>
+        <h2>📱 Bedrock Packs App</h2>
+        <p class="sub">Die App-Idee im gleichen Design.</p>
+      </div>
+      <span class="tag">COMING SOON</span>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="big">🎮</div>
+        <h3>Alle Packs an einem Ort</h3>
+        <p>Entdecke Kategorien, Beschreibungen und Vorschauen.</p>
+      </div>
+      <div class="feature">
+        <div class="big">💜</div>
+        <h3>Gleicher Style</h3>
+        <p>Ein echter App-Store-Link kommt erst dazu, wenn die App veröffentlicht wurde.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="vorschlagen">
+    <h2>💡 Pack vorschlagen</h2>
+    <p class="sub">Schlage ein Pack vor, das wir später prüfen können.</p>
+    <form id="suggestForm">
+      <input id="suggestName" required maxlength="80" placeholder="Name des Packs">
+      <input id="suggestLink" type="url" placeholder="Link zur Originalseite (optional)">
+      <textarea id="suggestReason" maxlength="500" placeholder="Was ist an diesem Pack besonders?"></textarea>
+      <button class="btn" type="submit">Vorschlag prüfen lassen</button>
+    </form>
+    <p class="status" id="suggestStatus" role="status"></p>
+    <div class="notice">Das Vorschlagsformular ist derzeit eine Demo und verschickt noch keine Daten.</div>
+  </section>
+</main>
+
+<footer>
+  <strong>BEDROCK PACKS</strong><br>
+  Eine Fan-Projekt-Website für Minecraft Bedrock.<br>
+  Nicht offiziell mit Minecraft oder Mojang verbunden.<br>
+  Beispielkarten sind keine Garantie für echte Packs oder PS5-Kompatibilität.
+</footer>
+
+<script>
+const packs = [
+  {id:"low-fire",name:"Low Fire",cat:"PvP",icon:"🔥",desc:"Eine niedrigere Feuer-Ansicht als PvP-Idee.",before:"🔥",after:"♨️"},
+  {id:"pvp-armor",name:"PvP Armor",cat:"PvP",icon:"🛡️",desc:"Beispiel für angepasste Rüstungstexturen.",before:"🛡️",after:"⚔️"},
+  {id:"short-swords",name:"Short Swords",cat:"PvP",icon:"🗡️",desc:"Eine Idee für kürzer dargestellte Schwerter.",before:"⚔️",after:"🗡️"},
+  {id:"durability",name:"Durability",cat:"PvP",icon:"🔧",desc:"Ein Beispiel für eine Anzeige der Ausrüstungs-Haltbarkeit. Die echte Funktion hängt vom jeweiligen Pack ab.",before:"🔧",after:"🟩"},
+  {id:"saturation",name:"Saturation",cat:"PvP",icon:"🍗",desc:"Eine Beispielkarte für Informationen rund um Hunger und Sättigung. Die echte Funktion hängt vom Pack ab.",before:"🍗",after:"🍖"},
+  {id:"pvp-visuals",name:"PvP Visuals",cat:"PvP",icon:"🎯",desc:"Beispielkarte für weitere visuelle PvP-Änderungen.",before:"🎮",after:"🎯"},
+  {id:"tnt-plus",name:"TNT Plus",cat:"Fun",icon:"💣",desc:"Beispiel für ein TNT- oder Explosions-Pack.",before:"🧨",after:"💥"},
+  {id:"funny-explosions",name:"Funny Explosions",cat:"Fun",icon:"🎆",desc:"Eine Idee für lustige Explosionseffekte.",before:"💣",after:"🎆"},
+  {id:"rainbow-world",name:"Rainbow World",cat:"Fun",icon:"🌈",desc:"Eine bunte Idee für eine farbenfrohe Welt.",before:"🌍",after:"🌈"},
+  {id:"blue-glass",name:"Blue Glass",cat:"Blocks",icon:"🟦",desc:"Eine Vorschau-Idee für blaues Glas.",before:"🪟",after:"🟦"},
+  {id:"bright-ores",name:"Bright Ores",cat:"Blocks",icon:"💎",desc:"Eine Idee für besser sichtbare Erze.",before:"⛏️",after:"💎"},
+  {id:"cute-mobs",name:"Cute Mobs",cat:"Mobs",icon:"🐼",desc:"Eine Beispielkarte für niedliche Mob-Texturen.",before:"🐷",after:"🐼"},
+  {id:"dark-ui",name:"Dark UI",cat:"UI",icon:"🖥️",desc:"Eine Design-Idee für eine dunkle Benutzeroberfläche.",before:"☀️",after:"🌙"}
+];
+
+let activeCategory = "Alle";
+const grid = document.getElementById("grid");
+const search = document.getElementById("search");
+
+function renderPacks() {
+  const q = search.value.trim().toLowerCase();
+  const filtered = packs.filter(p =>
+    (activeCategory === "Alle" || p.cat === activeCategory) &&
+    (p.name.toLowerCase().includes(q) ||
+     p.desc.toLowerCase().includes(q) ||
+     p.cat.toLowerCase().includes(q))
+  );
+
+  grid.replaceChildren();
+
+  filtered.forEach(p => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const art = document.createElement("div");
+    art.className = "card-art";
+    const icon = document.createElement("span");
+    icon.textContent = p.icon;
+    const label = document.createElement("small");
+    label.textContent = "BEDROCK PACKS · VORSCHAU";
+    art.append(icon,label);
+
+    const body = document.createElement("div");
+    body.className = "card-body";
+
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const title = document.createElement("h3");
+    title.textContent = p.name;
+    const badge = document.createElement("span");
+    badge.className = "badge";
+    badge.textContent = p.cat;
+    top.append(title,badge);
+
+    const desc = document.createElement("p");
+    desc.textContent = p.desc;
+
+    const button = document.createElement("button");
+    button.className = "btn";
+    button.textContent = "Pack ansehen →";
+    button.addEventListener("click",() => openDetail(p.id));
+
+    body.append(top,desc,button);
+    card.append(art,body);
+    grid.append(card);
+  });
+
+  document.getElementById("empty").hidden = filtered.length !== 0;
+}
+
+function openDetail(id) {
+  const p = packs.find(x => x.id === id);
+  if (!p) return;
+
+  document.getElementById("detailCat").textContent = p.cat;
+  document.getElementById("detailName").textContent = p.name;
+  document.getElementById("detailDesc").textContent = p.desc;
+  document.getElementById("detailPlatform").textContent = "Noch nicht geprüft";
+  document.getElementById("detailStatus").textContent = p.link
+    ? "Original-Link hinterlegt; Inhalt bitte prüfen."
+    : "Beispielkarte · kein geprüfter Download-Link";
+  document.getElementById("beforeIcon").textContent = p.before || p.icon;
+  document.getElementById("afterIcon").textContent = p.after || "✨";
+
+  const download = document.getElementById("download");
+  const noDownload = document.getElementById("noDownload");
+
+  if (p.link) {
+    download.href = p.link;
+    download.hidden = false;
+    noDownload.hidden = true;
+  } else {
+    download.hidden = true;
+    noDownload.hidden = false;
+  }
+
+  document.getElementById("detail").classList.add("show");
+  document.getElementById("detail").scrollIntoView({behavior:"smooth"});
+}
+
+function closeDetail() {
+  document.getElementById("detail").classList.remove("show");
+}
+
+function toggleAddForm() {
+  const panel = document.getElementById("addPanel");
+  panel.classList.toggle("show");
+  if (panel.classList.contains("show")) {
+    panel.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+}
+
+document.querySelectorAll(".filter").forEach(button => {
+  button.addEventListener("click",() => {
+    activeCategory = button.dataset.cat;
+    document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+    button.classList.add("active");
+    renderPacks();
+  });
+});
+
+search.addEventListener("input",renderPacks);
+
+document.getElementById("addForm").addEventListener("submit",event => {
+  event.preventDefault();
+
+  const name = document.getElementById("newName").value.trim();
+  const cat = document.getElementById("newCat").value;
+  const icon = document.getElementById("newIcon").value.trim() || "📦";
+  const desc = document.getElementById("newDesc").value.trim() || "Eigenes Pack.";
+  const link = document.getElementById("newLink").value.trim();
+
+  if (!name) return;
+
+  packs.unshift({
+    id:"custom-" + Date.now(),
+    name,cat,icon,desc,link,
+    before:icon,after:"✨"
+  });
+
+  activeCategory = "Alle";
+  document.querySelectorAll(".filter").forEach(b => {
+    b.classList.toggle("active",b.dataset.cat === "Alle");
+  });
+
+  search.value = "";
+  renderPacks();
+
+  document.getElementById("addStatus").textContent =
+    "Pack hinzugefügt! Es ist vorerst nur in diesem Browser verfügbar.";
+
+  event.target.reset();
+  document.getElementById("addPanel").classList.remove("show");
+  document.getElementById("packs").scrollIntoView({behavior:"smooth"});
+});
+
+document.getElementById("suggestForm").addEventListener("submit",event => {
+  event.preventDefault();
+  const name = document.getElementById("suggestName").value.trim();
+  document.getElementById("suggestStatus").textContent =
+    "Danke für deinen Vorschlag „" + name +
+    "“! Dies ist eine Demo: Der Vorschlag wurde nicht verschickt.";
+  event.target.reset();
+});
+
+renderPacks();
+</script>
+</body>
+</html>

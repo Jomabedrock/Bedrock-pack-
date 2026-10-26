@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bedrock Packs</title>
+<style>
+:root{--bg:#100d1c;--card:#211a35;--purple:#a879ff;--text:#f7f3ff;--muted:#c0b6d5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+header{padding:35px 18px;text-align:center;background:linear-gradient(135deg,#39206b,#171126)}
+.logo{font-size:38px;font-weight:900;color:white}
+.logo span{color:#bd95ff}
+header p{color:var(--muted)}
+main{max-width:1050px;margin:auto;padding:20px}
+h2{margin-top:30px}
+input,select,textarea{width:100%;padding:13px;border-radius:10px;border:1px solid #51416e;background:#211a35;color:white;margin:6px 0 12px;font-size:15px}
+button,.button{background:var(--purple);color:#160e26;border:0;border-radius:10px;padding:12px 16px;font-weight:bold;cursor:pointer;text-decoration:none;display:inline-block}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.filters button{background:#302447;color:white}
+.filters button.active{background:var(--purple);color:#160e26}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+.card{background:var(--card);padding:18px;border-radius:16px;border:1px solid #392c52}
+.icon{font-size:36px}
+.tag{font-size:12px;color:#d3baff;background:#382853;padding:5px 8px;border-radius:20px;display:inline-block}
+.card h3{margin-bottom:8px}
+.card p{color:var(--muted);line-height:1.5}
+.small{font-size:13px;color:var(--muted)}
+.notice{background:#302447;padding:15px;border-radius:12px;line-height:1.6}
+footer{text-align:center;padding:30px;color:var(--muted)}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">BEDROCK <span>PACKS</span></div>
+  <p>Deine Welt. Dein Style. Dein Pack.</p>
+  <span class="tag">MINECRAFT BEDROCK EDITION</span>
+</header>
+
+<main>
+  <div class="notice">
+    🎮 <b>Für PS5, Handy und PC</b><br>
+    Nicht jedes Pack funktioniert auf jedem Gerät oder Server.
+    Auf PS5 lassen sich externe Packs nicht einfach wie auf dem Handy importieren.
+  </div>
+
+  <h2>🔎 Packs entdecken</h2>
+  <input id="search" placeholder="Pack suchen ..." oninput="render()">
+
+  <div class="filters" id="filters">
+    <button class="active" onclick="setCategory('Alle',this)">Alle</button>
+    <button onclick="setCategory('PvP',this)">⚔️ PvP</button>
+    <button onclick="setCategory('TNT',this)">💣 TNT</button>
+    <button onclick="setCategory('Fun',this)">😂 Fun</button>
+    <button onclick="setCategory('Blöcke',this)">🧱 Blöcke</button>
+    <button onclick="setCategory('Mobs',this)">🐲 Mobs</button>
+    <button onclick="setCategory('UI',this)">🎨 UI</button>
+  </div>
+
+  <div class="grid" id="packs"></div>
+
+  <h2>📩 Pack vorschlagen</h2>
+  <div class="card">
+    <p>Du kennst ein cooles Bedrock-Pack? Schlage es vor! Vorschläge sollten geprüft werden, bevor sie auf der Website veröffentlicht werden.</p>
+    <form id="suggestion">
+      <label>Pack-Name</label>
+      <input id="packName" required placeholder="Name des Packs">
+      <label>Pack-Kategorie</label>
+      <select id="packCategory">
+        <option>PvP</option><option>TNT</option><option>Fun</option>
+        <option>Blöcke</option><option>Mobs</option><option>UI</option>
+      </select>
+      <label>Link zur offiziellen Pack-Seite</label>
+      <input id="packLink" type="url" required placeholder="https://...">
+      <label>Beschreibung</label>
+      <textarea id="packDescription" required placeholder="Was macht das Pack besonders?"></textarea>
+      <button type="submit">Vorschlag vorbereiten</button>
+    </form>
+    <p class="small" id="formMessage">Hinweis: Diese Demo speichert oder verschickt Vorschläge noch nicht. Dafür muss später ein Formular-Dienst eingerichtet werden.</p>
+  </div>
+
+  <h2>ℹ️ Wichtig zu wissen</h2>
+  <div class="notice">
+    • Die Pack-Karten unten sind Beispiele und noch keine geprüften Downloads.<br>
+    • Verwende nur vertrauenswürdige Quellen und prüfe die Nutzungsbedingungen.<br>
+    • Packs, die auf dem Handy funktionieren, funktionieren nicht automatisch auf der PS5.<br>
+    • Ein Server kann eigene Regeln und Einschränkungen für Texturen-Packs haben.
+  </div>
+</main>
+
+<footer>
+  BEDROCK PACKS · Fanprojekt · Nicht offiziell mit Minecraft verbunden
+</footer>
+
+<script>
+const data=[
+{name:"Short Swords",cat:"PvP",icon:"⚔️",desc:"Kürzere Schwerter für eine übersichtlichere PvP-Ansicht.",device:"Kompatibilität hängt vom Pack und Gerät ab."},
+{name:"Low Fire",cat:"PvP",icon:"🔥",desc:"Ein niedrigeres Feuer kann die Sicht im Kampf verbessern.",device:"Externe Packs sind auf PS5 nicht direkt importierbar."},
+{name:"PvP Visuals",cat:"PvP",icon:"🎯",desc:"Ein Beispiel für ein PvP-orientiertes Ressourcenpaket.",device:"Version und Serverregeln prüfen."},
+{name:"TNT Plus",cat:"TNT",icon:"💣",desc:"Eine Idee für auffällige TNT-Texturen.",device:"Pack-Kompatibilität vorher prüfen."},
+{name:"Funny Explosions",cat:"TNT",icon:"💥",desc:"Ein Fun-Konzept rund um Explosionen.",device:"Nur eine Beispielkarte."},
+{name:"Rainbow World",cat:"Fun",icon:"🌈",desc:"Bunte Farben für eine fröhliche Minecraft-Welt.",device:"Nur eine Beispielkarte."},
+{name:"Tiny Mobs",cat:"Mobs",icon:"🐸",desc:"Ein Beispiel für veränderte Mob-Texturen.",device:"Kompatibilität vorher prüfen."},
+{name:"Cute Animals",cat:"Mobs",icon:"🐼",desc:"Eine niedliche Optik für Tiere.",device:"Nur eine Beispielkarte."},
+{name:"Dark UI",cat:"UI",icon:"🌑",desc:"Ein dunkler Stil für die Benutzeroberfläche.",device:"Abhängig von Version und Gerät."},
+{name:"Clean HUD",cat:"UI",icon:"🖥️",desc:"Eine aufgeräumte HUD-Optik als Pack-Idee.",device:"Nur eine Beispielkarte."},
+{name:"Blue Glass",cat:"Blöcke",icon:"🩵",desc:"Eine Idee für blaue Glas-Texturen.",device:"Pack-Kompatibilität vorher prüfen."},
+{name:"Bright Ores",cat:"Blöcke",icon:"💎",desc:"Eine Idee für besser sichtbare Erz-Texturen.",device:"Serverregeln beachten."}
+];
+let category="Alle";
+function setCategory(c,b){
+ category=c;
+ document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active");
+ render();
+}
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const list=data.filter(p=>(category==="Alle"||p.cat===category)&&(p.name+" "+p.desc+" "+p.cat).toLowerCase().includes(q));
+ document.getElementById("packs").innerHTML=list.map(p=>`
+ <article class="card">
+ <div class="icon">${p.icon}</div>
+ <span class="tag">${p.cat}</span>
+ <h3>${p.name}</h3>
+ <p>${p.desc}</p>
+ <p class="small">${p.device}</p>
+ <span class="small">Beispiel · Kein geprüfter Download</span>
+ </article>`).join("")||"<p>Keine passenden Packs gefunden.</p>";
+}
+document.getElementById("suggestion").addEventListener("submit",function(e){
+ e.preventDefault();
+ const name=document.getElementById("packName").value;
+ const cat=document.getElementById("packCategory").value;
+ const link=document.getElementById("packLink").value;
+ const desc=document.getElementById("packDescription").value;
+ document.getElementById("formMessage").innerHTML=
+ "✅ Vorschlag vorbereitet!<br><b>"+escapeText(name)+"</b> · "+escapeText(cat)+
+ "<br><a class='button' target='_blank' rel='noopener noreferrer' href='"+encodeURI(link)+"'>Pack-Seite öffnen</a>"+
+ "<br>Der Vorschlag wurde noch nicht an den Website-Betreiber gesendet.";
+});
+function escapeText(s){
+ const el=document.createElement("span");
+ el.textContent=s;
+ return el.innerHTML;
+}
+render();
+</script>
+</body>
+</html>

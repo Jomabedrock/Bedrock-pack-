@@ -2,252 +2,1057 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bedrock Packs</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#100b1c;color:#f8f4ff;font-family:Arial,sans-serif}
-header{text-align:center;padding:30px 15px;background:linear-gradient(135deg,#35105d,#160d29);border-bottom:1px solid #7140a2}
-h1{font-size:clamp(32px,8vw,52px);color:#d8a6ff;text-shadow:0 0 18px #a855f7;margin:8px}
-header p,.muted{color:#c4b4d8;line-height:1.6}
-main{max-width:1050px;margin:auto;padding:18px}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap}
-input,select,button{font:inherit;padding:12px;border-radius:10px}
-input,select{background:#201631;color:white;border:1px solid #65418b}
-#search{flex:1;min-width:180px}
-button{cursor:pointer;background:linear-gradient(135deg,#9333ea,#db3caa);border:0;color:white;font-weight:bold}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
-.filters button{background:#29183d;border:1px solid #644087}
-.filters button.active{background:#9333ea}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
-.card{padding:17px;background:#1b1230;border:1px solid #4d306d;border-radius:16px;cursor:pointer}
-.card:hover{border-color:#e879f9;transform:translateY(-2px)}
-.icon{font-size:38px}
-.tag{font-size:12px;color:#e2c4ff}
-.card p{color:#c4b4d8;line-height:1.5}
-.hidden{display:none!important}
-#details{background:#1b1230;border:1px solid #7542a3;border-radius:18px;padding:18px}
-.back{background:#352344;margin-bottom:12px}
-.download{display:block;text-align:center;padding:15px;margin:18px 0;background:linear-gradient(135deg,#9333ea,#db3caa);border-radius:12px;color:white;text-decoration:none;font-weight:bold}
-.previewgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.preview{min-width:0;background:#100b1c;border:1px solid #553778;border-radius:12px;padding:9px;text-align:center}
-.preview img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:#302044}
-.preview strong{display:block;margin:10px 0}
-.note{color:#c4b4d8;font-size:13px;line-height:1.6}
-.credits{border-top:1px solid #553778;margin-top:22px;padding-top:15px;color:#c4b4d8;line-height:1.6}
-footer{text-align:center;padding:25px;color:#9e8bad;font-size:13px}
-@media(max-width:420px){main{padding:12px}#details{padding:12px}.previewgrid{gap:7px}}
+:root {
+  --bg: #100b1c;
+  --panel: #1c1330;
+  --panel2: #281b40;
+  --purple: #a855f7;
+  --pink: #ec4899;
+  --text: #ffffff;
+  --muted: #c4b5d8;
+  --border: #493363;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at top, #30204b 0%, var(--bg) 55%);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  padding: 34px 16px 22px;
+  text-align: center;
+}
+
+.logo {
+  font-size: clamp(32px, 7vw, 54px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin: 0;
+}
+
+.logo span {
+  color: var(--purple);
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+main {
+  max-width: 1200px;
+  padding: 12px 16px 50px;
+  margin: auto;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+input,
+select {
+  min-width: 0;
+  background: var(--panel);
+  color: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 15px;
+}
+
+#search {
+  flex: 1;
+}
+
+button,
+.button {
+  cursor: pointer;
+  border: none;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  color: white;
+  padding: 12px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+button:hover,
+.button:hover {
+  filter: brightness(1.12);
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 20px 0 25px;
+}
+
+.category {
+  background: var(--panel);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 10px 15px;
+  border-radius: 25px;
+}
+
+.category.active {
+  background: var(--purple);
+  color: white;
+  border-color: var(--purple);
+}
+
+.section-title {
+  margin: 25px 0 15px;
+  font-size: 23px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: linear-gradient(150deg, var(--panel2), var(--panel));
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  overflow: hidden;
+  transition: transform .18s, border-color .18s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--purple);
+}
+
+.card-art {
+  height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  background:
+    radial-gradient(circle at center, #563477 0%, #241532 75%);
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.tag {
+  display: inline-block;
+  background: #40265d;
+  color: #e9d5ff;
+  border-radius: 20px;
+  padding: 5px 9px;
+  font-size: 11px;
+  margin-bottom: 9px;
+}
+
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 38px;
+}
+
+.card button {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#details {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  margin-top: 15px;
+}
+
+.back-button {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+
+.detail-heading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.detail-icon {
+  font-size: 52px;
+}
+
+.detail-heading h2 {
+  margin: 0 0 7px;
+  font-size: 27px;
+}
+
+.detail-description {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.download-area {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.preview {
+  background: #130d20;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.preview h3 {
+  margin: 0;
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 14px;
+  background: var(--panel2);
+}
+
+.preview img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.preview-placeholder {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.info-box {
+  background: #130d20;
+  border: 1px solid var(--border);
+  padding: 14px;
+  border-radius: 12px;
+  margin-top: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.info-box a {
+  color: #d8b4fe;
+}
+
+#empty {
+  color: var(--muted);
+  padding: 30px 10px;
+  text-align: center;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--muted);
+  padding: 25px 16px;
+  font-size: 12px;
+}
+
+@media (max-width: 560px) {
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .toolbar button {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .card-art {
+    height: 95px;
+    font-size: 40px;
+  }
+
+  .card-body {
+    padding: 11px;
+  }
+
+  .card h3 {
+    font-size: 15px;
+  }
+
+  .card p {
+    font-size: 12px;
+  }
+
+  .card button {
+    padding: 10px 6px;
+    font-size: 12px;
+  }
+
+  #details {
+    padding: 13px;
+  }
+
+  .detail-heading h2 {
+    font-size: 22px;
+  }
+
+  .preview-grid {
+    gap: 8px;
+  }
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>💜 BEDROCK PACKS</h1>
-<p>Deine Welt. Deine Packs. Dein Style.</p>
+  <h1 class="logo">BEDROCK <span>PACKS</span></h1>
+  <p class="subtitle">Deine Texturen. Dein Style. Dein Minecraft.</p>
 </header>
 
 <main>
-<section id="listing">
-<div class="toolbar">
-<input id="search" placeholder="🔎 Packs suchen …">
-<button id="add">＋ Eigenes Pack</button>
-</div>
 
-<div class="filters" id="filters">
-<button class="active" data-cat="Alle">Alle</button>
-<button data-cat="PvP">⚔️ PvP</button>
-<button data-cat="Fun">🎉 Fun</button>
-<button data-cat="Blocks">🧱 Blocks</button>
-<button data-cat="Mobs">🐲 Mobs</button>
-<button data-cat="UI">🖥️ UI</button>
-</div>
+  <div class="toolbar" id="toolbar">
+    <input
+      id="search"
+      type="search"
+      placeholder="🔎 Packs suchen ..."
+      aria-label="Packs suchen"
+    >
+    <button id="addPackButton">＋ Eigenes Pack</button>
+  </div>
 
-<div class="grid" id="grid"></div>
-<p id="empty" class="note hidden">Keine Packs gefunden.</p>
-</section>
+  <div class="categories" id="categories">
+    <button class="category active" data-category="Alle">Alle</button>
+    <button class="category" data-category="PvP">⚔️ PvP</button>
+    <button class="category" data-category="Fun">💣 Fun</button>
+    <button class="category" data-category="Blocks">🧱 Blocks</button>
+    <button class="category" data-category="Mobs">👾 Mobs</button>
+    <button class="category" data-category="UI">🖥️ UI</button>
+  </div>
 
-<section id="details" class="hidden">
-<button class="back" id="back">← Zurück</button>
-<h2 id="title"></h2>
-<p id="description" class="muted"></p>
-<a id="download" class="download hidden" target="_blank" rel="noopener noreferrer">⬇️ DOWNLOAD</a>
+  <section id="listing">
+    <h2 class="section-title">🔥 Pack-Bibliothek</h2>
+    <div class="grid" id="packGrid"></div>
+    <div id="empty" class="hidden">Keine Packs gefunden.</div>
+    <p class="note">
+      Hinweis: Nicht jedes Pack ist für jede Bedrock-Version oder die PS5
+      geeignet. Prüfe vor der Nutzung die Angaben auf der Originalseite.
+    </p>
+  </section>
 
-<div class="previewgrid">
-<div class="preview">
-<img id="before" alt="Bild ohne Pack">
-<strong>❌ Ohne Pack</strong>
-<p class="note">Originale Minecraft-Ansicht</p>
-</div>
-<div class="preview">
-<img id="after" alt="Bild mit Pack">
-<strong>✅ Mit Pack</strong>
-<p class="note">Ansicht mit Texture Pack</p>
-</div>
-</div>
+  <section id="details" class="hidden">
+    <button class="back-button" id="backButton">← Zurück zu allen Packs</button>
 
-<p id="compatibility" class="note"></p>
-<div class="credits">
-<strong>👤 Ersteller & Quelle</strong>
-<p id="creator"></p>
-<p id="source"></p>
-<p>Bitte beachte die Nutzungsbedingungen des jeweiligen Erstellers. Die Packs gehören ihren Urhebern.</p>
-</div>
-</section>
+    <div class="detail-heading">
+      <div class="detail-icon" id="detailIcon">📦</div>
+      <div>
+        <h2 id="detailTitle">Pack</h2>
+        <span class="tag" id="detailCategory">Kategorie</span>
+      </div>
+    </div>
+
+    <p class="detail-description" id="detailDescription"></p>
+
+    <div class="download-area">
+      <a
+        class="button"
+        id="downloadButton"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+      >⬇️ Pack auf der Originalseite ansehen</a>
+      <span class="note" id="downloadNote">
+        Prüfe die Angaben des Anbieters vor dem Download.
+      </span>
+    </div>
+
+    <h3>🖼️ Pack-Vergleich</h3>
+
+    <div class="preview-grid">
+      <div class="preview">
+        <h3>Ohne Pack</h3>
+        <img id="beforeImage" class="hidden" alt="Minecraft ohne das Pack">
+        <div id="beforePlaceholder" class="preview-placeholder">
+          Noch kein Vergleichsbild vorhanden.
+        </div>
+      </div>
+
+      <div class="preview">
+        <h3>Mit Pack</h3>
+        <img id="afterImage" class="hidden" alt="Minecraft mit dem Pack">
+        <div id="afterPlaceholder" class="preview-placeholder">
+          Noch kein Vergleichsbild vorhanden.
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>🎮 Plattform:</strong>
+      <span id="detailPlatform"></span>
+    </div>
+
+    <div class="info-box">
+      <strong>👤 Ersteller:</strong>
+      <span id="detailCreator"></span>
+    </div>
+
+    <div class="info-box">
+      <strong>🔗 Quelle:</strong>
+      <span id="detailSource"></span>
+    </div>
+
+    <p class="note">
+      Bedrock Packs ist eine Fan-Seite. Die Pack-Ersteller behalten ihre
+      Rechte an ihren Inhalten. Downloads und Nutzungsbedingungen findest du
+      auf den jeweiligen Originalseiten.
+    </p>
+  </section>
+
 </main>
 
 <footer>
-Bedrock Packs · Fan-Projekt, nicht offiziell mit Minecraft verbunden.
+  BEDROCK PACKS · Fan-Projekt · Nicht offiziell mit Minecraft verbunden
 </footer>
 
 <script>
-const packs=[
-{name:"Low Fire",cat:"PvP",icon:"🔥",
-desc:"Weniger sichtbares Feuer für eine bessere Übersicht im Kampf.",
-url:"https://mcpedl.com/low-fire/",
-creator:"Bitte Angaben auf der Originalseite prüfen",
-compat:"Bedrock-Version und PS5-Kompatibilität vor dem Download prüfen.",
-before:"",after:"",source:"MCPEDL – Originalseite"},
-{name:"PvP Armor",cat:"PvP",icon:"🛡️",
-desc:"Rüstungs-Texturen für einen PvP-Look.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"},
-{name:"Short Swords",cat:"PvP",icon:"⚔️",
-desc:"Kürzer wirkende Schwerter für eine übersichtlichere Ansicht.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"},
-{name:"Durability",cat:"PvP",icon:"🔧",
-desc:"Pack-Idee für eine besser erkennbare Haltbarkeit.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"},
-{name:"Saturation",cat:"PvP",icon:"🍗",
-desc:"Pack-Idee für eine übersichtlichere Hungeranzeige.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"},
-{name:"TNT Plus",cat:"Fun",icon:"💣",
-desc:"Platzhalter für ein TNT-Texturpack oder Add-on.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"},
-{name:"Funny Explosions",cat:"Fun",icon:"🎉",
-desc:"Idee für lustige Explosionseffekte.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"},
-{name:"Rainbow World",cat:"Fun",icon:"🌈",
-desc:"Bunte Optik für deine Minecraft-Welt.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"},
-{name:"Blue Glass",cat:"Blocks",icon:"🟦",
-desc:"Idee für eine blaue Glas-Textur.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"},
-{name:"Bright Ores",cat:"Blocks",icon:"💎",
-desc:"Auffälliger gestaltete Erz-Texturen.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"},
-{name:"Cute Mobs",cat:"Mobs",icon:"🐼",
-desc:"Niedliche Texturen für Minecraft-Kreaturen.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"},
-{name:"Dark UI",cat:"UI",icon:"🌙",
-desc:"Idee für eine dunklere Benutzeroberfläche.",
-url:"",creator:"Noch nicht eingetragen",compat:"Noch nicht geprüft.",before:"",after:"",source:"Noch keine Quelle eingetragen"}
+const packs = [
+  // =========================
+  // PVP
+  // =========================
+  {
+    id: "low-fire",
+    name: "Low Fire",
+    category: "PvP",
+    icon: "🔥",
+    description: "Eine niedrigere Feuer-Ansicht kann im PvP die Sicht auf Gegner verbessern. Prüfe die Bedrock-Kompatibilität auf der Originalseite.",
+    creator: "Auf der Originalseite prüfen",
+    platform: "Minecraft Bedrock – Version und Plattform prüfen",
+    url: "https://mcpedl.com/low-fire/",
+    before: "",
+    after: ""
+  },
+  {
+    id: "short-swords",
+    name: "Short Swords",
+    category: "PvP",
+    icon: "⚔️",
+    description: "Ein kurzer Schwert-Look für eine übersichtlichere PvP-Ansicht.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock short swords texture pack"
+  },
+  {
+    id: "pvp-armor",
+    name: "PvP Armor",
+    category: "PvP",
+    icon: "🛡️",
+    description: "Rüstungs-Texturen für einen anderen PvP-Look.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock PvP armor texture pack"
+  },
+  {
+    id: "durability",
+    name: "Durability",
+    category: "PvP",
+    icon: "⛏️",
+    description: "Suche nach einem Pack, das Haltbarkeit und Ausrüstung übersichtlicher darstellt.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock durability texture pack"
+  },
+  {
+    id: "saturation",
+    name: "Saturation",
+    category: "PvP",
+    icon: "🍖",
+    description: "Eine Suche nach Bedrock-Packs mit übersichtlicher Hunger- oder Sättigungsanzeige.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock saturation texture pack"
+  },
+  {
+    id: "clear-water",
+    name: "Clear Water",
+    category: "PvP",
+    icon: "💧",
+    description: "Finde Wasser-Texturen, die deine Sicht unter Wasser verändern.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock clear water texture pack"
+  },
+  {
+    id: "outlined-ores",
+    name: "Outlined Ores",
+    category: "PvP",
+    icon: "💎",
+    description: "Erz-Texturen mit deutlicheren Umrandungen. Prüfe die Regeln des Servers, auf dem du spielst.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock outlined ores texture pack"
+  },
+  {
+    id: "crosshair",
+    name: "PvP Crosshair",
+    category: "PvP",
+    icon: "🎯",
+    description: "Suche nach einem Pack, das das Fadenkreuz verändert.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock crosshair texture pack"
+  },
+  {
+    id: "clean-hotbar",
+    name: "Clean Hotbar",
+    category: "PvP",
+    icon: "🎒",
+    description: "Ein aufgeräumter Look für die Schnellzugriffsleiste.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock clean hotbar texture pack"
+  },
+  {
+    id: "small-tools",
+    name: "Small Tools",
+    category: "PvP",
+    icon: "🪓",
+    description: "Finde kompaktere Werkzeug-Texturen für deinen PvP-Look.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock small tools texture pack"
+  },
+
+  // =========================
+  // FUN
+  // =========================
+  {
+    id: "tnt-plus",
+    name: "TNT Plus",
+    category: "Fun",
+    icon: "🧨",
+    description: "Suche nach TNT-Texturen und visuellen Effekten für mehr Abwechslung.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version und Funktion vor dem Download prüfen",
+    search: "Minecraft Bedrock TNT texture pack"
+  },
+  {
+    id: "funny-explosions",
+    name: "Funny Explosions",
+    category: "Fun",
+    icon: "💥",
+    description: "Lustige Explosions-Optik für deine Minecraft-Welt.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock funny explosion texture pack"
+  },
+  {
+    id: "rainbow-world",
+    name: "Rainbow World",
+    category: "Fun",
+    icon: "🌈",
+    description: "Bunte Texturen für eine farbenfrohe Minecraft-Welt.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock rainbow texture pack"
+  },
+  {
+    id: "cartoon",
+    name: "Cartoon Style",
+    category: "Fun",
+    icon: "🎨",
+    description: "Suche nach einem Comic-Look für deine Blöcke und Gegenstände.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock cartoon texture pack"
+  },
+  {
+    id: "silly-mobs",
+    name: "Silly Mobs",
+    category: "Fun",
+    icon: "🐸",
+    description: "Lustige Mob-Texturen für eine verrückte Welt.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock funny mobs texture pack"
+  },
+  {
+    id: "colorful-items",
+    name: "Colorful Items",
+    category: "Fun",
+    icon: "🎁",
+    description: "Finde bunte Gegenstands-Texturen für Minecraft Bedrock.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock colorful items texture pack"
+  },
+
+  // =========================
+  // BLOCKS
+  // =========================
+  {
+    id: "blue-glass",
+    name: "Blue Glass",
+    category: "Blocks",
+    icon: "🟦",
+    description: "Suche nach blauen oder klareren Glas-Texturen für deine Builds.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock blue glass texture pack"
+  },
+  {
+    id: "bright-ores",
+    name: "Bright Ores",
+    category: "Blocks",
+    icon: "💎",
+    description: "Leuchtend wirkende Erz-Texturen für Bergbau und Höhlen.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock bright ores texture pack"
+  },
+  {
+    id: "realistic-blocks",
+    name: "Realistic Blocks",
+    category: "Blocks",
+    icon: "🪨",
+    description: "Suche nach realistischeren Block-Texturen für deine Bauwerke.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock realistic blocks texture pack"
+  },
+  {
+    id: "smooth-stone",
+    name: "Smooth Stone",
+    category: "Blocks",
+    icon: "🧱",
+    description: "Ein glatterer Look für Stein und Baumaterialien.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock smooth stone texture pack"
+  },
+  {
+    id: "connected-glass",
+    name: "Connected Glass",
+    category: "Blocks",
+    icon: "🪟",
+    description: "Finde Glas-Texturen, die Übergänge zwischen Scheiben verändern.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version und Funktionen prüfen",
+    search: "Minecraft Bedrock connected glass texture pack"
+  },
+  {
+    id: "better-leaves",
+    name: "Better Leaves",
+    category: "Blocks",
+    icon: "🌿",
+    description: "Veränderte Blätter-Texturen für schönere Landschaften.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock better leaves texture pack"
+  },
+  {
+    id: "better-water",
+    name: "Better Water",
+    category: "Blocks",
+    icon: "🌊",
+    description: "Finde alternative Wasser-Texturen für deine Welt.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock better water texture pack"
+  },
+  {
+    id: "clean-stone",
+    name: "Clean Blocks",
+    category: "Blocks",
+    icon: "⬜",
+    description: "Schlichte Block-Texturen für klare und moderne Builds.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock clean blocks texture pack"
+  },
+
+  // =========================
+  // MOBS
+  // =========================
+  {
+    id: "cute-mobs",
+    name: "Cute Mobs",
+    category: "Mobs",
+    icon: "🐼",
+    description: "Niedlichere Mob-Texturen für deine Minecraft-Welt.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock cute mobs texture pack"
+  },
+  {
+    id: "realistic-mobs",
+    name: "Realistic Mobs",
+    category: "Mobs",
+    icon: "🐺",
+    description: "Suche nach detailreicheren Mob-Texturen.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock realistic mobs texture pack"
+  },
+  {
+    id: "baby-animals",
+    name: "Baby Animals",
+    category: "Mobs",
+    icon: "🐑",
+    description: "Alternative Texturen für Tiere und ihre Jungtiere.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock baby animals texture pack"
+  },
+  {
+    id: "better-villagers",
+    name: "Better Villagers",
+    category: "Mobs",
+    icon: "🧑‍🌾",
+    description: "Veränderte Villager-Texturen für Dörfer und Handelsplätze.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock better villagers texture pack"
+  },
+  {
+    id: "creature-styles",
+    name: "Creature Styles",
+    category: "Mobs",
+    icon: "🐉",
+    description: "Finde alternative Designs für Kreaturen in Minecraft.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock creature texture pack"
+  },
+
+  // =========================
+  // UI
+  // =========================
+  {
+    id: "dark-ui",
+    name: "Dark UI",
+    category: "UI",
+    icon: "🌑",
+    description: "Ein dunklerer Look für die Benutzeroberfläche. Prüfe, welche Menüs das Pack tatsächlich verändert.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock dark UI texture pack"
+  },
+  {
+    id: "clean-ui",
+    name: "Clean UI",
+    category: "UI",
+    icon: "🖥️",
+    description: "Eine übersichtlichere Benutzeroberfläche für Minecraft Bedrock.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock clean UI texture pack"
+  },
+  {
+    id: "minimal-ui",
+    name: "Minimal UI",
+    category: "UI",
+    icon: "📱",
+    description: "Suche nach einer minimalistischen Oberfläche mit weniger visueller Ablenkung.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock minimal UI texture pack"
+  },
+  {
+    id: "custom-hotbar",
+    name: "Custom Hotbar",
+    category: "UI",
+    icon: "🎒",
+    description: "Alternative Designs für die Schnellzugriffsleiste.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock custom hotbar texture pack"
+  },
+  {
+    id: "clear-icons",
+    name: "Clear Icons",
+    category: "UI",
+    icon: "🔍",
+    description: "Suche nach klareren Symbolen und Inventar-Texturen.",
+    creator: "Je nach Pack unterschiedlich",
+    platform: "Bedrock-Version vor dem Download prüfen",
+    search: "Minecraft Bedrock clear inventory icons texture pack"
+  }
 ];
 
-let category="Alle";
-const $=id=>document.getElementById(id);
+let activeCategory = "Alle";
+let currentPack = null;
 
-function render(){
- const q=$("search").value.toLowerCase().trim();
- const shown=packs.filter(p=>
- (category==="Alle"||p.cat===category)&&
- (p.name+" "+p.desc+" "+p.cat).toLowerCase().includes(q)
- );
- $("grid").innerHTML="";
- $("empty").classList.toggle("hidden",shown.length>0);
+const grid = document.getElementById("packGrid");
+const listing = document.getElementById("listing");
+const details = document.getElementById("details");
+const searchInput = document.getElementById("search");
+const emptyMessage = document.getElementById("empty");
 
- shown.forEach(p=>{
-  const card=document.createElement("article");
-  card.className="card";
-  const icon=document.createElement("div");
-  icon.className="icon";icon.textContent=p.icon;
-  const tag=document.createElement("span");
-  tag.className="tag";tag.textContent=p.cat;
-  const heading=document.createElement("h3");
-  heading.textContent=p.name;
-  const desc=document.createElement("p");
-  desc.textContent=p.desc;
-  const open=document.createElement("button");
-  open.textContent="Details ansehen →";
-  open.addEventListener("click",()=>openPack(p));
-  card.addEventListener("click",e=>{
-   if(e.target.tagName!=="BUTTON")openPack(p);
+function getPackUrl(pack) {
+  if (pack.url) return pack.url;
+
+  if (pack.search) {
+    return "https://mcpedl.com/?s=" +
+      encodeURIComponent(pack.search);
+  }
+
+  return "";
+}
+
+function renderPacks() {
+  const query = searchInput.value.trim().toLowerCase();
+
+  const filtered = packs.filter(pack => {
+    const matchesCategory =
+      activeCategory === "Alle" ||
+      pack.category === activeCategory;
+
+    const matchesSearch =
+      pack.name.toLowerCase().includes(query) ||
+      pack.description.toLowerCase().includes(query) ||
+      pack.category.toLowerCase().includes(query);
+
+    return matchesCategory && matchesSearch;
   });
-  card.append(icon,tag,heading,desc,open);
-  $("grid").appendChild(card);
- });
+
+  grid.innerHTML = "";
+
+  filtered.forEach(pack => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const art = document.createElement("div");
+    art.className = "card-art";
+    art.textContent = pack.icon;
+
+    const body = document.createElement("div");
+    body.className = "card-body";
+
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = pack.category;
+
+    const title = document.createElement("h3");
+    title.textContent = pack.name;
+
+    const description = document.createElement("p");
+    description.textContent = pack.description;
+
+    const button = document.createElement("button");
+    button.textContent = "Details ansehen";
+    button.addEventListener("click", () => openPack(pack));
+
+    body.append(tag, title, description, button);
+    card.append(art, body);
+    grid.appendChild(card);
+  });
+
+  emptyMessage.classList.toggle("hidden", filtered.length > 0);
 }
 
-function openPack(p){
- $("listing").classList.add("hidden");
- $("details").classList.remove("hidden");
- $("title").textContent=p.icon+" "+p.name;
- $("description").textContent=p.desc;
- $("compatibility").textContent="🎮 Kompatibilität: "+p.compat;
- $("creator").textContent=p.creator;
- $("source").textContent=p.source;
+function setPreview(imageId, placeholderId, url) {
+  const image = document.getElementById(imageId);
+  const placeholder = document.getElementById(placeholderId);
 
- const download=$("download");
- if(p.url){
-  download.href=p.url;
-  download.classList.remove("hidden");
- }else{
-  download.removeAttribute("href");
-  download.classList.add("hidden");
- }
+  image.onerror = () => {
+    image.classList.add("hidden");
+    placeholder.classList.remove("hidden");
+  };
 
- setImage("before",p.before);
- setImage("after",p.after);
- window.scrollTo({top:0,behavior:"instant"});
+  if (url) {
+    image.src = url;
+    image.classList.remove("hidden");
+    placeholder.classList.add("hidden");
+  } else {
+    image.removeAttribute("src");
+    image.classList.add("hidden");
+    placeholder.classList.remove("hidden");
+  }
 }
 
-function setImage(id,url){
- const img=$(id);
- img.onerror=null;
- if(url){
-  img.src=url;
- }else{
-  img.removeAttribute("src");
-  img.alt="Noch kein echtes Vergleichsbild hinterlegt";
- }
+function openPack(pack) {
+  currentPack = pack;
+
+  document.getElementById("detailIcon").textContent = pack.icon;
+  document.getElementById("detailTitle").textContent = pack.name;
+  document.getElementById("detailCategory").textContent = pack.category;
+  document.getElementById("detailDescription").textContent = pack.description;
+  document.getElementById("detailPlatform").textContent = pack.platform;
+  document.getElementById("detailCreator").textContent = pack.creator;
+
+  const url = getPackUrl(pack);
+  const downloadButton = document.getElementById("downloadButton");
+  const downloadNote = document.getElementById("downloadNote");
+  const source = document.getElementById("detailSource");
+
+  if (url) {
+    downloadButton.href = url;
+    downloadButton.classList.remove("hidden");
+    downloadNote.textContent = pack.url
+      ? "Originalseite des Packs öffnen."
+      : "Suchergebnisse öffnen. Prüfe dort den Pack-Namen und die Kompatibilität.";
+    source.innerHTML = "";
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = pack.url ? "Originalseite öffnen" : "Suchergebnisse öffnen";
+    source.appendChild(link);
+  } else {
+    downloadButton.href = "#";
+    downloadButton.classList.add("hidden");
+    downloadNote.textContent = "Für dieses Pack ist noch keine Quelle eingetragen.";
+    source.textContent = "Noch keine Quelle eingetragen.";
+  }
+
+  setPreview("beforeImage", "beforePlaceholder", pack.before || "");
+  setPreview("afterImage", "afterPlaceholder", pack.after || "");
+
+  listing.classList.add("hidden");
+  document.getElementById("toolbar").classList.add("hidden");
+  document.getElementById("categories").classList.add("hidden");
+  details.classList.remove("hidden");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-$("back").addEventListener("click",()=>{
- $("details").classList.add("hidden");
- $("listing").classList.remove("hidden");
- window.scrollTo({top:0,behavior:"instant"});
+function showListing() {
+  details.classList.add("hidden");
+  listing.classList.remove("hidden");
+  document.getElementById("toolbar").classList.remove("hidden");
+  document.getElementById("categories").classList.remove("hidden");
+  currentPack = null;
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.getElementById("backButton").addEventListener("click", showListing);
+
+searchInput.addEventListener("input", renderPacks);
+
+document.querySelectorAll(".category").forEach(button => {
+  button.addEventListener("click", () => {
+    activeCategory = button.dataset.category;
+
+    document.querySelectorAll(".category").forEach(item => {
+      item.classList.toggle("active", item === button);
+    });
+
+    renderPacks();
+  });
 });
 
-$("filters").addEventListener("click",e=>{
- const btn=e.target.closest("button[data-cat]");
- if(!btn)return;
- category=btn.dataset.cat;
- document.querySelectorAll(".filters button").forEach(b=>
- b.classList.toggle("active",b===btn)
- );
- render();
+document.getElementById("addPackButton").addEventListener("click", () => {
+  const name = prompt("Wie heißt das Pack?");
+  if (!name || !name.trim()) return;
+
+  const url = prompt(
+    "Füge die URL der Pack-Seite ein. Du kannst das Feld auch leer lassen."
+  );
+
+  const category = prompt(
+    "Welche Kategorie? Schreibe genau: PvP, Fun, Blocks, Mobs oder UI",
+    "PvP"
+  );
+
+  const allowedCategories = ["PvP", "Fun", "Blocks", "Mobs", "UI"];
+
+  if (!category || !allowedCategories.includes(category.trim())) {
+    alert("Bitte eine gültige Kategorie eingeben: PvP, Fun, Blocks, Mobs oder UI.");
+    return;
+  }
+
+  if (url && !/^https?:\/\//i.test(url.trim())) {
+    alert("Bitte eine gültige URL eingeben, die mit https:// oder http:// beginnt.");
+    return;
+  }
+
+  const newPack = {
+    id: "custom-" + Date.now(),
+    name: name.trim(),
+    category: category.trim(),
+    icon: "📦",
+    description: "Eigenes Pack. Prüfe vor dem Download die Originalseite und die Kompatibilität.",
+    creator: "Vom Besucher hinzugefügt",
+    platform: "Bedrock-Kompatibilität selbst prüfen",
+    url: url ? url.trim() : "",
+    before: "",
+    after: ""
+  };
+
+  packs.unshift(newPack);
+  activeCategory = "Alle";
+  searchInput.value = "";
+
+  document.querySelectorAll(".category").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.category === "Alle"
+    );
+  });
+
+  renderPacks();
+  alert("Pack wurde vorläufig hinzugefügt. Es bleibt nur in dieser geöffneten Seite und wird nach einem Neuladen zurückgesetzt.");
 });
 
-$("search").addEventListener("input",render);
-
-$("add").addEventListener("click",()=>{
- const name=prompt("Wie heißt das Pack?");
- if(!name||!name.trim())return;
- const url=prompt("Link zur Originalseite (optional):")||"";
- const cat=prompt("Kategorie: PvP, Fun, Blocks, Mobs oder UI","PvP")||"PvP";
- if(!["PvP","Fun","Blocks","Mobs","UI"].includes(cat)){
-  alert("Bitte eine gültige Kategorie eingeben.");return;
- }
- packs.push({
-  name:name.trim(),cat,icon:"📦",
-  desc:"Von einem Besucher hinzugefügtes Pack.",
-  url,creator:"Vom Besucher eingetragen",
-  compat:"Bitte Originalseite auf Kompatibilität prüfen.",
-  before:"",after:"",source:url||"Noch keine Quelle eingetragen"
- });
- render();
- alert("Pack hinzugefügt! Es wird aktuell nicht dauerhaft gespeichert.");
-});
-
-render();
+renderPacks();
 </script>
+
 </body>
-</html>
+</html>#
